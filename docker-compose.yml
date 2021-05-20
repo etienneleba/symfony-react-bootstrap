@@ -2,29 +2,25 @@ version: "3.3"
 
 services:
   db:
-    image: mariadb:10.1.44
-    restart: on-failure
+    image: postgres:13-alpine
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-      MYSQL_DATABASE: example
-      MYSQL_USER: user
-      MYSQL_PASSWORD:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-user}
+      POSTGRES_USER: ${POSTGRES_USER:-user}
     volumes:
-      - ./data:/var/lib/mysql
+      - ./docker/db/data:/var/lib/postgresql/data:rw
 
   php:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    restart: on-failure
     environment:
       APP_ENV: ${APP_ENV}
-      SYMFONY_VERSION: ${SYMFONY_VERSION:-}
+      SYMFONY_VERSION: ${SYMFONY_VERSION:-5.*}
     volumes:
       - .:/usr/src/
       - ./docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
-    depends_on:
-      - db
     working_dir: /usr/src
 
   nginx:

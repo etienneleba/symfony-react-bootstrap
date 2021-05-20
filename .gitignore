@@ -1,3 +1,5 @@
+docker-compose.override.yml
+node_modules
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -10,5 +12,13 @@
 ###< symfony/framework-bundle ###
 
 ###> data ###
-/data/*
+/docker/db/*
+!/docker/db/.gitkeep
 ###> data ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
