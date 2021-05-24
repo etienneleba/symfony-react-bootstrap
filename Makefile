@@ -1,5 +1,5 @@
 build-project:
-	docker-compose build 
+	docker-compose build
 
 re-build-project: down build-project
 
@@ -21,23 +21,23 @@ console:
 	docker-compose run --rm php php bin/console $(cmd)
 
 schema-update:
-	docker-compose run --rm php php bin/console doctrine:schema:update -f 
+	docker-compose run --rm php php bin/console doctrine:schema:update -f
 
 cache-clear:
-	docker-compose run --rm php php bin/console cache:clear 
+	docker-compose run --rm php php bin/console cache:clear
 
 composer-require:
 	docker-compose run --rm php composer require $(req)
 
 composer-install: 
-	docker-compose run --rm php composer install 
+	docker-compose run --rm php composer install
 
 composer-install-prod: 
 	docker-compose run --rm php composer install -o
 
 yarn-install:
 	# To be log as the node user on the container and be allowed to use the npm/yarn cache (if you have a better way pls tell me)
-	LOCAL_USER=1000 docker-compose run --rm node yarn install 
+	LOCAL_USER=1000 docker-compose run --rm node yarn install
 
 yarn-install-prod:
 	# To be log as the node user on the container and be allowed to use the npm/yarn cache (if you have a better way pls tell me)
@@ -67,3 +67,6 @@ build-symfony-project-prod : composer-install-prod cache-clear cache-warm
 to-prod: stop up-prod build-symfony-project-prod
 
 to-dev: stop up build-symfony-project
+
+eslint:
+	docker-compose run --rm node ./node_modules/.bin/eslint assets
